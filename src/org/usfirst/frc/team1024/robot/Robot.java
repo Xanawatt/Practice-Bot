@@ -2,6 +2,9 @@
 package org.usfirst.frc.team1024.robot;
 
 import org.usfirst.frc.team1024.robot.commands.CameronFollowLine;
+import org.usfirst.frc.team1024.robot.pixy.PixyException;
+import org.usfirst.frc.team1024.robot.pixy.PixyI2C;
+import org.usfirst.frc.team1024.robot.pixy.PixyPacket;
 import org.usfirst.frc.team1024.robot.subsystems.Driver;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -26,18 +29,21 @@ public class Robot extends IterativeRobot {
 	SendableChooser chooser;
 	Command followLine;
 	public static boolean isDone;
-	public static byte[] pixyValues;
+	//public static byte[] pixyValues;
 	public static int xPosition = 0;
+	public PixyPacket pixyValues;
+	public PixyI2C pixy;
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
+		pixy = new PixyI2C();
 		oi = new OI();
 		chooser = new SendableChooser();
 		isDone = false;
 		followLine = new CameronFollowLine();
-		pixyValues = new byte[64];
+		//pixyValues = new byte[64];
 		//        chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
 
@@ -51,7 +57,7 @@ public class Robot extends IterativeRobot {
 		Driver.backLeft.enableBrakeMode(false);
 		Driver.backRight.enableBrakeMode(false);
 
-		Driver.pixyPower.set(true);
+		//Driver.pixyPower.set(true);
 		//LiveWindow.addSensor("Pixy", "Pixy", (LiveWindowSendable) Driver.pixyi2c);
 	}
 
@@ -119,7 +125,8 @@ public class Robot extends IterativeRobot {
 	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		printPixyStuff();
+		//printPixyStuff();
+		newPrintPixyStuff();
 		Driver.drive(-OI.logi.getRawAxis(1), -OI.logi.getRawAxis(3));
 		if(OI.logi.getRawButton(6) == true){
 			Driver.shifter.set(true);
@@ -135,6 +142,7 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		LiveWindow.run();
 	}
+	/*
 	public static void printPixyStuff(){
 		pixyValues[0] = (byte) 0b01010101;
 		pixyValues[1] = (byte) 0b10101010;
@@ -162,6 +170,32 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putNumber("height", height);
 		}
 	}
-
+	*/
+	public void newPrintPixyStuff() {
+		//updatePixy();
+		try {
+			SmartDashboard.putNumber("xPosition", pixy.readPacket(1).X);
+			/*SmartDashboard.putNumber("yPosition", pixy.readPacket(1).Y);
+			SmartDashboard.putNumber("Width", pixy.readPacket(1).Width);
+			SmartDashboard.putNumber("Height", pixy.readPacket(1).Height);*/
+		} catch (PixyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+	}
+	/**
+	 * This method updates all the pixy values and stores them in a global variable set at PixyPacket.java
+	 */
+	/*public void updatePixy(){
+		try {
+			pixy.readPacket(1).X; //This is 1 because this is the ID of the object in pixymon we are detecting
+								//Might actually be 0 for the first object in frame
+		} catch (PixyException e) {
+			e.printStackTrace();
+		}
+	}*/
 }
 

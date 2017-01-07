@@ -30,10 +30,10 @@ public class CameronFollowLine extends Command {
 	}
 
 	protected void execute() {
-		timer.start();
+		/*timer.start();
 		while(!isDone){
 			while(timer.get() < 5.0){
-				Robot.printPixyStuff();
+				//Robot.printPixyStuff();
 				if(isLine()){
 					if(isCentered()){
 						Driver.drive(0.4, 0.4);
@@ -56,9 +56,10 @@ public class CameronFollowLine extends Command {
 			Driver.drive(0.0, 0.0);
 			timer.stop();
 			timer.reset();
+			DriverStation.reportError("I am done", true);
+			isDone = true;
 		}
-		DriverStation.reportError("I am done", true);
-		isDone = true;
+		*/
 	}
 
 	protected boolean isFinished() {
@@ -69,7 +70,7 @@ public class CameronFollowLine extends Command {
 	}
 
 	protected void interrupted() {
-	}
+	}/*
 	public char getX(){
 
 		pixyValues[0] = (byte) 0b01010101;
@@ -132,6 +133,7 @@ public class CameronFollowLine extends Command {
 		DriverStation.reportError("I returned null", true);
 		return 0;
 	}
+	
 	public boolean isLine(){//Is the robot on the line?
 		DriverStation.reportError("Width = " + getWidth() + "Height = " + getHeight() + "/n", true);
 		if(getHeight() > 0 && getWidth() > 0){
@@ -148,6 +150,7 @@ public class CameronFollowLine extends Command {
 			return false;
 		}
 	}
+	*/
 	//Everything below this is Experimental code and has not been tested
 	public int getXWithNewCode(){
 		return pixyPacketValues.X;
@@ -161,15 +164,5 @@ public class CameronFollowLine extends Command {
 	public int getHeightWithNewCode(){
 		return pixyPacketValues.Height;
 	}
-	/**
-	 * This method updates all the pixy values and stores them in a global variable set at PixyPacket.java
-	 */
-	public void updatePixy(){
-		try {
-			pixy.readPacket(1); //This is 1 because this is the ID of the object in pixymon we are detecting
-								//Might actually be 0 for the first object in frame
-		} catch (PixyException e) {
-			e.printStackTrace();
-		}
-	}
+	
 }

@@ -20,8 +20,8 @@ public class Driver extends Subsystem {
 	public static CANTalon backLeft = new CANTalon(RobotMap.BackLeft);
 	public static CANTalon backRight = new CANTalon(RobotMap.BackRight);
 	public static final Solenoid shifter = new Solenoid(RobotMap.PCM, RobotMap.shifter);
-	public static I2C pixyi2c = new I2C(Port.kOnboard, RobotMap.pixyAddress);
-	public static DigitalOutput pixyPower = new DigitalOutput(6);
+	//public static I2C pixyi2c = new I2C(Port.kOnboard, RobotMap.pixyAddress);
+	//public static DigitalOutput pixyPower = new DigitalOutput(6);
 
 	public Driver() {
 	}
@@ -55,7 +55,7 @@ public class Driver extends Subsystem {
 
 	}
 
-	public static void pixyValue(int desiredxposition) {
+	/*public static void pixyValue(int desiredxposition) {
 		drive(0.3, -0.3);
 		Timer.delay(2.0);
 		drive(0.0, 0.0);
@@ -74,5 +74,5 @@ public class Driver extends Subsystem {
 				drive(-0.2, 0.0);
 			}
 		}
-	}
+	}*/
 }
